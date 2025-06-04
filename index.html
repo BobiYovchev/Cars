@@ -48,6 +48,7 @@
       min-height: 30px;
       font-weight: bold;
       color: #004a99;
+      white-space: pre-wrap;
     }
     .car-container {
       margin-top: 30px;
@@ -65,6 +66,11 @@
       max-width: 180px;
       border-radius: 12px;
       box-shadow: 0 0 10px #005f99;
+    }
+    .no-gif {
+      color: #a00;
+      font-style: italic;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -108,12 +114,12 @@ fast_car(X).
     session.consult(knowledge);
 
     const carAnimations = {
-      ferrari: '<img src="https://media.giphy.com/media/Wws6eHo5V7rC7M3NsG/giphy.gif" class="car-gif" alt="Ferrari" />',
-      tesla: '<img src="https://media.giphy.com/media/7U6TvmyknC8Uy/giphy.gif" class="car-gif" alt="Tesla" />',
-      rolls_royce: '<img src="https://media.giphy.com/media/xT0GqF0q3M4HWc39ZW/giphy.gif" class="car-gif" alt="Rolls-Royce" />',
-      lamborghini: '<img src="https://media.giphy.com/media/2Ybz2UPXmX5qg/giphy.gif" class="car-gif" alt="Lamborghini" />',
-      bmw: '<img src="https://media.giphy.com/media/IdNsQkAfCNgsk/giphy.gif" class="car-gif" alt="BMW" />',
-      porsche: '<img src="https://media.giphy.com/media/n9wEKt1U8Heik/giphy.gif" class="car-gif" alt="Porsche" />'
+      ferrari: '<img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" class="car-gif" alt="Ferrari" />',
+      tesla: '<img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" class="car-gif" alt="Tesla" />',
+      rolls_royce: '<img src="https://media.giphy.com/media/l3vR0JLJbPUnt9RHi/giphy.gif" class="car-gif" alt="Rolls-Royce" />',
+      lamborghini: '<img src="https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif" class="car-gif" alt="Lamborghini" />',
+      bmw: '<img src="https://media.giphy.com/media/3o7TKttwGAXFh9V06c/giphy.gif" class="car-gif" alt="BMW" />',
+      porsche: '<img src="https://media.giphy.com/media/l0ExhBeEHBdx8Y8Ca/giphy.gif" class="car-gif" alt="Porsche" />'
     };
 
     function runProlog() {
@@ -125,34 +131,39 @@ fast_car(X).
       animDiv.innerHTML = "";
 
       if (!input) {
-        resultDiv.innerHTML = "<p>Моля, въведете заявка.</p>";
+        resultDiv.innerHTML = "Моля, въведете заявка.";
         return;
       }
 
       session.query(input);
+
       const shown = new Set();
 
       session.answers(answer => {
-        if(answer === false) {
-          if(shown.size === 0) {
-            resultDiv.innerHTML = "<p>Няма резултати за тази заявка.</p>";
+        if (answer === false) {
+          if (shown.size === 0) {
+            resultDiv.innerHTML = "Няма резултати за тази заявка.";
           } else {
-            resultDiv.innerHTML += "<p>Няма повече резултати.</p>";
+            resultDiv.innerHTML += "\nНяма повече резултати.";
           }
           return;
         }
 
         const str = pl.format_answer(answer);
-        resultDiv.innerHTML += `<p>${str}</p>`;
+        resultDiv.innerHTML += str + "\n";
 
-        // Тук търсим всички променливи и стойности
+        // Търсим всички X = стойности в отговора
         const regex = /(\w+) = (\w+)/g;
         let match;
         while ((match = regex.exec(str)) !== null) {
           const value = match[2];
-          if (carAnimations[value] && !shown.has(value)) {
+          if (!shown.has(value)) {
             shown.add(value);
-            animDiv.innerHTML += carAnimations[value];
+            if (carAnimations[value]) {
+              animDiv.innerHTML += carAnimations[value];
+            } else {
+              animDiv.innerHTML += `<p class="no-gif">Няма GIF за "${value}".</p>`;
+            }
           }
         }
       });
