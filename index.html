@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prolog автомобили с различни правила и GIF</title>
+  <title>Prolog автомобили с GIF</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -69,20 +69,10 @@
   </style>
 </head>
 <body>
-  <h1>Prolog автомобили с различни правила и GIF</h1>
-
-  <p class="instructions">
-    Въведете Prolog заявка за автомобили и техните характеристики.<br>
-    Ако има резултати, ще видите подходящи анимирани GIF изображения на автомобилите.<br><br>
-    Примери за заявки:<br>
-    <code>fast_car(X).</code>, <code>luxury(X).</code>, <code>electric(X).</code>
-  </p>
+  <h1>Prolog автомобили с GIF</h1>
 
   <textarea id="prolog-input">
-% Примери:
 fast_car(X).
-luxury(X).
-electric(X).
   </textarea><br />
   <button onclick="runProlog()">Изпълни</button>
 
@@ -93,7 +83,6 @@ electric(X).
   <script>
     const session = pl.create();
 
-    // База знания за автомобили и правила
     const knowledge = `
       car(ferrari).
       car(tesla).
@@ -108,8 +97,7 @@ electric(X).
 
       luxury(rolls_royce).
       luxury(bmw).
-      luxury(rolls_royce).
-      
+
       electric(tesla).
 
       is_fast_car(X) :- fast_car(X).
@@ -146,7 +134,7 @@ electric(X).
 
       session.answers(answer => {
         if(answer === false) {
-          if (shown.size === 0) {
+          if(shown.size === 0) {
             resultDiv.innerHTML = "<p>Няма резултати за тази заявка.</p>";
           } else {
             resultDiv.innerHTML += "<p>Няма повече резултати.</p>";
@@ -157,7 +145,7 @@ electric(X).
         const str = pl.format_answer(answer);
         resultDiv.innerHTML += `<p>${str}</p>`;
 
-        // Извличаме всички променливи и стойности от отговора
+        // Тук търсим всички променливи и стойности
         const regex = /(\w+) = (\w+)/g;
         let match;
         while ((match = regex.exec(str)) !== null) {
