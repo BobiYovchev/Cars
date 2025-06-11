@@ -3,83 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prolog автомобили с GIF</title>
+  <title>Prolog автомобили с категории и GIF</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 700px;
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
       margin: 30px auto;
-      background: #f0f0f0;
-      color: #222;
+      background: #f5f5f5;
       padding: 20px;
+      border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 10px;
       text-align: center;
     }
     textarea {
       width: 90%;
-      max-width: 600px;
       height: 120px;
       font-family: monospace;
       font-size: 16px;
-      margin-top: 10px;
+      padding: 10px;
       border-radius: 6px;
       border: 2px solid #007acc;
-      padding: 8px;
       resize: vertical;
     }
     button {
-      margin-top: 15px;
-      padding: 10px 25px;
-      font-size: 18px;
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
       background-color: #007acc;
-      border: none;
       color: white;
-      border-radius: 8px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #005f99;
+      background-color: #005fa3;
     }
     #result {
       margin-top: 20px;
-      font-size: 18px;
-      min-height: 30px;
       font-weight: bold;
       color: #004a99;
       white-space: pre-wrap;
     }
     .car-container {
-      margin-top: 30px;
-      min-height: 180px;
+      margin-top: 20px;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 20px;
-      background: #d0f0ff;
-      border-radius: 12px;
-      box-shadow: 0 0 12px #66b3ff;
+      justify-content: center;
+      gap: 15px;
+      background: #e0f0ff;
       padding: 15px;
+      border-radius: 10px;
     }
     .car-gif {
-      max-width: 180px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #005f99;
-    }
-    .no-gif {
-      color: #a00;
-      font-style: italic;
-      margin-top: 10px;
+      width: 180px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #005fa3;
     }
   </style>
 </head>
 <body>
-  <h1>Prolog автомобили с GIF</h1>
+
+  <h1>Prolog Автомобили: Категории и GIF</h1>
 
   <textarea id="prolog-input">
-fast_car(X).
-  </textarea><br />
+% Пример: german_car(X). или is_electric_car(X). или classic_car(X).
+  </textarea>
+  <br>
   <button onclick="runProlog()">Изпълни</button>
 
   <div id="result"></div>
@@ -90,26 +79,31 @@ fast_car(X).
     const session = pl.create();
 
     const knowledge = `
-      car(ferrari).
-      car(tesla).
-      car(rolls_royce).
-      car(lamborghini).
-      car(bmw).
-      car(porsche).
+      % Факти
+      car(ferrari).      fast(ferrari).        classic(ferrari).        italian(ferrari).
+      car(tesla).        electric(tesla).      american(tesla).
+      car(rolls_royce).  luxury(rolls_royce).  british(rolls_royce).
+      car(lamborghini).  fast(lamborghini).    italian(lamborghini).
+      car(bmw).          luxury(bmw).          german(bmw).
+      car(porsche).      fast(porsche).        german(porsche).
+      car(audi).         german(audi).
+      car(mercedes).     german(mercedes).
+      car(bugatti).      fast(bugatti).        german(bugatti).
+      car(mustang).      classic(mustang).     american(mustang).
+      car(nissan_leaf).  electric(nissan_leaf).japanese(nissan_leaf).
+      car(ford_model_t). classic(ford_model_t).american(ford_model_t).
+      car(chevrolet_camaro). fast(chevrolet_camaro). american(chevrolet_camaro).
+      car(lucid_air).    electric(lucid_air).  american(lucid_air).
+      car(bmw_i3).       electric(bmw_i3).     german(bmw_i3).
+      car(volkswagen_id4).electric(volkswagen_id4). german(volkswagen_id4).
 
-      fast_car(ferrari).
-      fast_car(lamborghini).
-      fast_car(porsche).
-      fast_car(bmw).
-
-      luxury(rolls_royce).
-      luxury(bmw).
-
-      electric(tesla).
-
-      is_fast_car(X) :- fast_car(X).
-      is_luxury(X) :- luxury(X).
-      is_electric(X) :- electric(X).
+      % Правила
+      is_fast_car(X) :- fast(X).
+      is_electric_car(X) :- electric(X).
+      is_luxury_car(X) :- luxury(X).
+      classic_car(X) :- classic(X).
+      german_car(X) :- german(X).
+      american_car(X) :- american(X).
     `;
 
     session.consult(knowledge);
@@ -120,7 +114,17 @@ fast_car(X).
       rolls_royce: '<img src="https://media.giphy.com/media/l3vR0JLJbPUnt9RHi/giphy.gif" class="car-gif" alt="Rolls-Royce" />',
       lamborghini: '<img src="https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif" class="car-gif" alt="Lamborghini" />',
       bmw: '<img src="https://media.giphy.com/media/3o7TKttwGAXFh9V06c/giphy.gif" class="car-gif" alt="BMW" />',
-      porsche: '<img src="https://media.giphy.com/media/l0ExhBeEHBdx8Y8Ca/giphy.gif" class="car-gif" alt="Porsche" />'
+      porsche: '<img src="https://media.giphy.com/media/l0ExhBeEHBdx8Y8Ca/giphy.gif" class="car-gif" alt="Porsche" />',
+      audi: '<img src="https://media.giphy.com/media/y1ZBcOGOOtlpC/giphy.gif" class="car-gif" alt="Audi" />',
+      mercedes: '<img src="https://media.giphy.com/media/JtBZm9z2K6yKrp5pAg/giphy.gif" class="car-gif" alt="Mercedes" />',
+      bugatti: '<img src="https://media.giphy.com/media/xUA7aVzbLsFJ0y6D8w/giphy.gif" class="car-gif" alt="Bugatti" />',
+      mustang: '<img src="https://media.giphy.com/media/9PtfS5tTC8ejlYfCLU/giphy.gif" class="car-gif" alt="Mustang" />',
+      nissan_leaf: '<img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" class="car-gif" alt="Nissan Leaf" />',
+      ford_model_t: '<img src="https://media.giphy.com/media/xT5LMzIK1AdZJ8UuuM/giphy.gif" class="car-gif" alt="Ford Model T" />',
+      chevrolet_camaro: '<img src="https://media.giphy.com/media/j0nZrjN2F3nS0/giphy.gif" class="car-gif" alt="Chevrolet Camaro" />',
+      lucid_air: '<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzBpcDVuOTd0enp6b2djZ2g0ZWdzNHM0dWF3eXZ2ZmlxbGkxa3pxdiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FZ9bxGhSgGc9pMgY3l/giphy.gif" class="car-gif" alt="Lucid Air" />',
+      bmw_i3: '<img src="https://media.giphy.com/media/Yl5aO3gdVfsQ0/giphy.gif" class="car-gif" alt="BMW i3" />',
+      volkswagen_id4: '<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" class="car-gif" alt="VW ID.4" />'
     };
 
     function runProlog() {
@@ -143,7 +147,7 @@ fast_car(X).
       session.answers(answer => {
         if (answer === false) {
           if (shown.size === 0) {
-            resultDiv.innerHTML = "Няма резултати за тази заявка.";
+            resultDiv.innerHTML = "Няма резултати.";
           } else {
             resultDiv.innerHTML += "\nНяма повече резултати.";
           }
@@ -153,18 +157,13 @@ fast_car(X).
         const str = pl.format_answer(answer);
         resultDiv.innerHTML += str + "\n";
 
-        // Търсим всички X = стойности в отговора
-        const regex = /(\w+)\s*=\s*(\w+)/g;
+        const regex = /X = (\w+)/g;
         let match;
         while ((match = regex.exec(str)) !== null) {
-          const value = match[2];
+          const value = match[1];
           if (!shown.has(value)) {
             shown.add(value);
-            if (carAnimations[value]) {
-              animDiv.innerHTML += carAnimations[value];
-            } else {
-              animDiv.innerHTML += `<p class="no-gif">Няма GIF за "${value}".</p>`;
-            }
+            animDiv.innerHTML += carAnimations[value] || `<p>Няма GIF за ${value}</p>`;
           }
         }
       });
