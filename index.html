@@ -113,16 +113,15 @@ fast_car(X).
 
     session.consult(knowledge);
 
-   <script>
-  const carAnimations = {
-    ferrari: '<img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" class="car-gif" alt="Ferrari" />',
-    tesla: '<img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" class="car-gif" alt="Tesla" />',
-    rolls_royce: '<img src="https://media.giphy.com/media/l3vR0JLJbPUnt9RHi/giphy.gif" class="car-gif" alt="Rolls-Royce" />',
-    lamborghini: '<img src="https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif" class="car-gif" alt="Lamborghini" />',
-    bmw: '<img src="https://media.giphy.com/media/3o7TKttwGAXFh9V06c/giphy.gif" class="car-gif" alt="BMW" />',
-    porsche: '<img src="https://media.giphy.com/media/l0ExhBeEHBdx8Y8Ca/giphy.gif" class="car-gif" alt="Porsche" />'
-  };
-</script>
+    const carAnimations = {
+      ferrari: '<img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" class="car-gif" alt="Ferrari" />',
+      tesla: '<img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" class="car-gif" alt="Tesla" />',
+      rolls_royce: '<img src="https://media.giphy.com/media/l3vR0JLJbPUnt9RHi/giphy.gif" class="car-gif" alt="Rolls-Royce" />',
+      lamborghini: '<img src="https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif" class="car-gif" alt="Lamborghini" />',
+      bmw: '<img src="https://media.giphy.com/media/3o7TKttwGAXFh9V06c/giphy.gif" class="car-gif" alt="BMW" />',
+      porsche: '<img src="https://media.giphy.com/media/l0ExhBeEHBdx8Y8Ca/giphy.gif" class="car-gif" alt="Porsche" />'
+    };
+
     function runProlog() {
       const input = document.getElementById("prolog-input").value.trim();
       const resultDiv = document.getElementById("result");
@@ -154,7 +153,7 @@ fast_car(X).
         resultDiv.innerHTML += str + "\n";
 
         // Търсим всички X = стойности в отговора
-        const regex = /(\w+) = (\w+)/g;
+        const regex = /(\w+)\s*=\s*(\w+)/g;
         let match;
         while ((match = regex.exec(str)) !== null) {
           const value = match[2];
